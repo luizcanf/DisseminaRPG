@@ -9,14 +9,13 @@
 
 <body>
   <h1>Aventuras Fantásticas - Ironsworn</h1>
+  <h3>Dado de Ação: <%=total%></h3>
+  <h3>Dado de Desafio 1: <%=desafio1%></h3>
+  <h3>Dado de Desafio 2: <%=desafio2%></h3>
+  <h2>Resultado: <%=resolucao%></h2>
+  <br>
   <form action="/resetaDados" method="post">
     <button type="submit">Resetar Rolagens</button>
-  </form>
-  <br>
-  <form action="/exibeRolagem" method="post">
-    <label>Bônus: </label>
-    <input type="number" name="bonus">
-    <button type="submit">Exibir Rolagens</button>
   </form>
 </body>
 
