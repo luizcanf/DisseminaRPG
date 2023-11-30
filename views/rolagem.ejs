@@ -18,7 +18,7 @@
       <%=mensagem%>
     </div>
   <% } %>
-  <% if(typeof resultado != 'undefined') { %>
+  <% if(typeof resultado != 'undefined' && typeof rolagem != 'undefined') { %>
     <div class="resultado" alt="Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um <%=resultado%>.">
       <span>Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um</span>
       <h1><%=resultado%></h1>
