@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dissemina-IFF de RPG</title>
+</head>
+
+<body>
+  <h1>Aventuras Fantásticas - Ironsworn</h1>
+  <form action="/<%=dado%>" method="post">
+    <button type="submit">Rolar <%=nomeDado%></button>
+  </form>
+  <br>
+  <% if(typeof mensagem != 'undefined') { %>
+    <div>
+      <%=mensagem%>
+    </div>
+  <% } %>
+  <% if(typeof resultado != 'undefined') { %>
+    <div class="resultado" alt="Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um <%=resultado%>.">
+      <span>Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um</span>
+      <h1><%=resultado%></h1>
+    </div>
+  <% } %>
+</body>
+
+</html>
