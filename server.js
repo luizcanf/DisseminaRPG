@@ -95,9 +95,6 @@ app.post('/d10_1', (req, res) => {
         roll = Math.floor(Math.random()*10)
         d10_1[roll] = d10_1[roll] + 1
         rolagensD10_1++
-        roll3 = Math.floor(Math.random()*10)
-        d10_2[roll3] = d10_2[roll3] + 1
-        rolagensD10_2++
         res.render('rolagem', {dado:'d10_1', nomeDado: 'Dado de Desafio 1', resultado: roll+1, rolagem: rolagensD10_1})
     } else {
         res.render('rolagem', {dado:'d10_1', nomeDado: 'Dado de Desafio 1', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
@@ -117,6 +114,32 @@ app.post('/d10_2', (req, res) => {
     } else {
         res.render('rolagem', {dado:'d10_2', nomeDado: 'Dado de Desafio 2', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
     }
+})
+
+app.get('/completa', (req, res) => {
+    res.render('rolagem', {dado:'full', nomeDado: 'Rolagem'})
+})
+
+app.post('/full', (req, res) => {
+    if (rolagemAberta) {
+        rollD6 = Math.floor(Math.random()*6)
+        d6[rollD6] = d6[rollD6] + 1
+        rolagensD6++
+        rollD10_1 = Math.floor(Math.random()*10)
+        d10_1[rollD10_1] = d10_1[rollD10_1] + 1
+        rolagensD10_1++
+        rollD10_2 = Math.floor(Math.random()*10)
+        d10_2[rollD10_2] = d10_2[rollD10_2] + 1
+        rolagensD10_2++
+        resultado = `D6: ${rollD6+1} / D10(1): ${rollD10_1+1} /D10(2): ${rollD10_2+1}`
+        res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', resultado, rolagem: rolagensD6})
+    } else {
+        res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
+    }
+})
+
+app.get('/desafio1', (req, res) => {
+    res.render('rolagem', {dado:'d10_1', nomeDado: 'Dado de Desafio 1'})
 })
 
 app.listen(8080, () => {
