@@ -1,4 +1,5 @@
 const express = require('express')
+const PORT = 3000
 const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
@@ -142,6 +143,6 @@ app.get('/desafio1', (req, res) => {
     res.render('rolagem', {dado:'d10_1', nomeDado: 'Dado de Desafio 1'})
 })
 
-app.listen(8080, () => {
-    console.log('Rodando na porta 8080');
+app.listen(PORT, () => {
+    console.log(`Rodando na porta ${PORT}`);
 })
