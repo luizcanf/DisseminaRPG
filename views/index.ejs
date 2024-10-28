@@ -5,19 +5,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dissemina-IFF de RPG</title>
+  <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
-  <h1>Aventuras Fantásticas - Ironsworn</h1>
-  <form action="/resetaDados" method="post">
-    <button type="submit">Resetar Rolagens</button>
-  </form>
-  <br>
-  <form action="/exibeRolagem" method="post">
-    <label>Bônus: </label>
-    <input type="number" name="bonus" value="0">
-    <button type="submit">Exibir Rolagens</button>
-  </form>
+  <main>
+    <h1>Aventuras Fantásticas - Ironsworn</h1>
+    <section>
+      <form action="/exibeRolagem" method="post">
+        <label>Bônus: </label>
+        <input type="number" name="bonus" value="0">
+        <button type="submit">Exibir Rolagens</button>
+      </form>
+      <br>
+      <form action="/resetaDados" method="post">
+        <button type="submit">Resetar Rolagens</button>
+      </form>
+    </section>
+  </main>
 </body>
 
 </html>

@@ -5,18 +5,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dissemina-IFF de RPG</title>
+  <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
-  <h1>Aventuras Fantásticas - Ironsworn</h1>
-  <h3>Dado de Ação: <%=total%></h3>
-  <h3>Dado de Desafio 1: <%=desafio1%></h3>
-  <h3>Dado de Desafio 2: <%=desafio2%></h3>
-  <h2>Resultado: <%=resolucao%></h2>
-  <br>
-  <form action="/resetaDados" method="post">
-    <button type="submit">Resetar Rolagens</button>
-  </form>
+  <main>
+    <h1>Aventuras Fantásticas - Ironsworn</h1>
+    <section>
+      <div class="resultado">
+        <h1>Dado de Ação: <%=total%></h1>
+        <h1>Dado de Desafio 1: <%=desafio1%></h1>
+        <h1>Dado de Desafio 2: <%=desafio2%></h1>
+        <h2>Resultado: <%=resolucao%></h2>
+      </div>
+    
+      <form action="/resetaDados" method="post">
+        <button type="submit">Resetar Rolagens</button>
+      </form>
+    </section>
+  </main>
 </body>
 
 </html>

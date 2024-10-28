@@ -1,0 +1,98 @@
+:root {
+    --azul-escuro: #024554;
+    --verde-opaco: #53736A;
+    --verde-claro: #6A8C69;
+    --verde-amarelo: #A8B545;
+    --bege: #C2C0A6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--verde-opaco);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+main {
+    background-color: var(--bege);
+    width: 90vw;
+    max-width: 500px;
+    height: 90vh;
+    margin: 5vh auto;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.548);
+    overflow: hidden
+}
+
+main > h1, section {
+    padding: 5% 5% 0 5%;
+}
+
+main > h1 {
+    text-align: center; 
+}
+
+button {
+    background-color: var(--azul-escuro);
+    padding: 20px;
+    min-width: 230px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.499);
+}
+label {
+    display: block;
+    font-size: 1.7em;
+    font-weight: bold;
+}
+input {
+    background-color: var(--azul-escuro);
+    display: block;
+    height: 40px;
+    width: 230px;
+    margin: 20px 0;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.499);
+    color: white;
+    font-size: 30px;
+    text-indent: 5px;
+}
+.mensagem {
+    color: rgb(165, 0, 0);
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.resultado p {
+    font-size: 1.2em;
+    margin: 15px 0;
+}
+.resultado div {
+    background-color: var(--azul-escuro);
+    width: 100%;
+    height: 80%;
+    padding: 3%;
+    color: white;
+    font-size: 3em;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.393);
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.resultado h1, .resultado h2 {
+    margin-bottom: 20px;
+}

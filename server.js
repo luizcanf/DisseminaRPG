@@ -3,7 +3,7 @@ const PORT = 3000
 const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
-
+app.use(express.static('public'))
 let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
 let rolagemAberta = true
@@ -32,6 +32,10 @@ function moda(dado, lados) {
     resultado++
     return resultado
 }
+
+app.get('/', (req, res) => {
+    res.redirect('completa')
+})
 
 app.get('/mestre', (req, res) => {
     resultado = ""
@@ -132,7 +136,7 @@ app.post('/full', (req, res) => {
         rollD10_2 = Math.floor(Math.random()*10)
         d10_2[rollD10_2] = d10_2[rollD10_2] + 1
         rolagensD10_2++
-        resultado = `D6: ${rollD6+1} / D10(1): ${rollD10_1+1} /D10(2): ${rollD10_2+1}`
+        resultado = `D6: ${rollD6+1} <br> D10(1): ${rollD10_1+1} <br> D10(2): ${rollD10_2+1}`
         res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', resultado, rolagem: rolagensD6})
     } else {
         res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
