@@ -143,10 +143,6 @@ app.post('/full', (req, res) => {
     }
 })
 
-app.get('/desafio1', (req, res) => {
-    res.render('rolagem', {dado:'d10_1', nomeDado: 'Dado de Desafio 1'})
-})
-
 app.listen(PORT, () => {
     console.log(`Rodando na porta ${PORT}`);
 })
