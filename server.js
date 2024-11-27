@@ -56,8 +56,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/mestre', (req, res) => {
-    resultado = ""
-    res.render('index', { resultado })
+    res.render('senha')
+})
+
+TSH=s=>{for(var i=0,h=9;i<s.length;)h=Math.imul(h^s.charCodeAt(i++),9**9);return h^h>>>9}
+app.post('/quissapunk', (req, res) => {
+    if(TSH(req.body.senha)==1438420344) {
+        res.render('index')
+    } else {
+        res.redirect('completa')
+    }
 })
 
 app.post('/resetaDados', (req, res) => {
