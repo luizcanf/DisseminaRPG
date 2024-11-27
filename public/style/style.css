@@ -40,6 +40,7 @@ main > h1 {
 
 button {
     background-color: var(--azul-escuro);
+    display: block;
     padding: 20px;
     min-width: 230px;
     font-size: 1.3em;
@@ -48,6 +49,7 @@ button {
     border: 0;
     border-radius: 5px;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.499);
+    margin: auto;
 }
 label {
     display: block;
@@ -59,7 +61,7 @@ input {
     display: block;
     height: 40px;
     width: 230px;
-    margin: 20px 0;
+    margin: 20px auto;
     border: 0;
     border-radius: 5px;
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.499);

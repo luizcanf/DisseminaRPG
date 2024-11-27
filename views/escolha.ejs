@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <script> 
+        document.addEventListener('DOMContentLoaded', () => { 
+            setInterval(checaVotacao, 3000)
+            
+            function checaVotacao() { 
+                fetch('/votacaoEstado') 
+                    .then(response => response.json()) 
+                    .then(data => { 
+                        if (!data.votacao) { 
+                            window.location.href = '/';
+                        } 
+                }) 
+                .catch(error => console.error('Erro:', error))
+            } 
+        })
+    </script>
+</head>
+<body>
+    <main>
+        <section>
+                <form action="/votoLutar" method="post">
+                    <button type="submit" class="escolha lutar">Lutar</button> <br>
+                </form>
+            
+                <form action="/votoFugir" method="post">
+                    <button type="submit" class="escolha fugir">Fugir</button> <br>
+                </form>
+            
+                <form action="/votoItem" method="post">
+                    <button type="submit" class="escolha item">Usar item</button> <br>
+                </form>
+        </section>
+    </main>
+</body>
+</html>

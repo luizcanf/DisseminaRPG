@@ -6,6 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dissemina-IFF de RPG</title>
   <link rel="stylesheet" href="./style/style.css">
+  <script>
+      document.addEventListener('DOMContentLoaded', () => { 
+        let passoAtual = Number('<%= passoAtual %>')
+        let votacaoAtual = Number('<%= votacaoAtual %>')
+        console.log(passoAtual)
+
+        setInterval(checaVotacao, 3000)
+        
+        function checaVotacao() { 
+          fetch('/votacaoEstado') 
+          .then(response => response.json()) 
+          .then(data => { 
+            if (data.votacao && data.passoServer!=<%=passoAtual%>) { 
+              window.location.href = '/escolha'
+            } 
+          }) 
+          .catch(error => console.error('Erro:', error))
+        } 
+        
+      })
+  </script>
 </head>
 
 <body>

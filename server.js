@@ -6,10 +6,28 @@ app.set("view engine", "ejs")
 app.use(express.static('public'))
 let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
-let rolagemAberta = true
+let rolagemAberta = true, votacaoAberta = false
+let votosItem = 0, votosFugir = 0, votosLutar = 0
+let passoAtual = -1, votacaoAtual, passos = [
+    {nome: 'Batalha contra uma onça', resultado: null},
+    {nome: 'Batalha contra inimigos', resultado: null},
+    {nome: 'Salvar um aliado',        resultado: null},
+    {nome: 'Batalha final',           resultado: null},
+]
 resetaDado(d6, 6)
 resetaDado(d10_1, 10)
 resetaDado(d10_2, 10)
+
+function maior() {
+    const maior = Math.max(votosItem, votosFugir, votosLutar)
+    if (maior === votosItem) { 
+        return 'O mais votado foi usar item com: ' + votosItem + 'votos'
+    } else if (maior === votosFugir) { 
+        return 'O mais votado foi fugir com: ' + votosFugir + 'votos'
+    } else { 
+        return 'O mais votado foi lutar com: ' + votosLutar + 'votos'
+    }
+}
 
 function resetaDado(dado, lados) {
     for (let i=0; i<lados; i++) {
@@ -76,6 +94,63 @@ app.post('/exibeRolagem', (req, res) => {
     res.render('resultado', {total, desafio1, desafio2, resolucao})
 })
 
+app.post('/proximoPasso', (req, res) => {
+    if (!votacaoAberta) {
+        votacaoAberta = true
+        passoAtual++
+        votacaoAtual = passoAtual 
+        res.send('Votação iniciada')
+    } else {
+        res.send('Votação já está em andamento')
+    }
+})
+
+app.post('/fecharVotacao', (req, res) => {
+    if (votacaoAberta) {
+        votacaoAberta = false
+        res.send('Votação encerrada')
+    } else {
+        res.send('Votação já encerrada')
+    }
+})
+
+app.get('/votacaoEstado', (req, res) => {
+    res.json({ votacao: votacaoAberta, passoServer: passoAtual })
+})
+
+app.get('/escolha', (req, res) => {
+    res.render('escolha')
+})
+
+app.post('/votoLutar', (req, res) => {
+    votosLutar++
+    votacaoAtual++
+    console.log(votosLutar)
+    res.redirect('/')
+})
+
+app.post('/votoFugir', (req, res) => {
+    votosFugir++
+    votacaoAtual++
+    console.log(votosFugir)
+    res.redirect('/')
+})
+
+app.post('/votoItem', (req, res) => {
+    votosItem++
+    votacaoAtual++
+    console.log(votosItem)
+    res.redirect('/')
+})
+
+app.get('/resultadoVotacao', (req, res) => {
+    resultado = maior()
+    res.render('resultadoVotacao', { resultado })
+    
+})
+
+
+
 app.get('/acao', (req, res) => {
     res.render('rolagem', {dado:'d6', nomeDado: 'Dado de Ação'})
 })
@@ -122,7 +197,7 @@ app.post('/d10_2', (req, res) => {
 })
 
 app.get('/completa', (req, res) => {
-    res.render('rolagem', {dado:'full', nomeDado: 'Rolagem'})
+    res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', passoAtual: passoAtual, votacaoAtual: votacaoAtual})
 })
 
 app.post('/full', (req, res) => {
