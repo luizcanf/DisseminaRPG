@@ -9,8 +9,13 @@
   <script>
       document.addEventListener('DOMContentLoaded', () => { 
         let passoAtual = Number('<%= passoAtual %>')
-        let votacaoAtual = Number('<%= votacaoAtual %>')
-        console.log(passoAtual)
+        localStorage.setItem('votacaoAtual', null)
+        let votacaoAtual = localStorage.getItem('votacaoAtual')
+
+        if( votacaoAtual === 'null') {
+          votacaoAtual = passoAtual + 1
+          localStorage.setItem('votacaoAtual', votacaoAtual)
+        }
 
         setInterval(checaVotacao, 3000)
         
@@ -18,7 +23,10 @@
           fetch('/votacaoEstado') 
           .then(response => response.json()) 
           .then(data => { 
-            if (data.votacao && data.passoServer!=<%=passoAtual%>) { 
+            console.log(data.passoServer, votacaoAtual)
+            if (data.votacao && data.passoServer == votacaoAtual) { 
+              votacaoAtual++
+              localStorage.setItem('votacaoAtual', votacaoAtual.toString())
               window.location.href = '/escolha'
             } 
           }) 

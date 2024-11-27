@@ -19,6 +19,9 @@
                 }) 
                 .catch(error => console.error('Erro:', error))
             } 
+
+            function aumentaUm() {
+            }
         })
     </script>
 </head>
@@ -26,15 +29,15 @@
     <main>
         <section>
                 <form action="/votoLutar" method="post">
-                    <button type="submit" class="escolha lutar">Lutar</button> <br>
+                    <button type="submit" class="escolha lutar" onclick="aumentaUm()">Lutar</button> <br>
                 </form>
             
                 <form action="/votoFugir" method="post">
-                    <button type="submit" class="escolha fugir">Fugir</button> <br>
+                    <button type="submit" class="escolha fugir" onclick="aumentaUm()">Fugir</button> <br>
                 </form>
             
                 <form action="/votoItem" method="post">
-                    <button type="submit" class="escolha item">Usar item</button> <br>
+                    <button type="submit" class="escolha item" onclick="aumentaUm()">Usar item</button> <br>
                 </form>
         </section>
     </main>

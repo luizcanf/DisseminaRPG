@@ -98,7 +98,6 @@ app.post('/proximoPasso', (req, res) => {
     if (!votacaoAberta) {
         votacaoAberta = true
         passoAtual++
-        votacaoAtual = passoAtual 
         res.send('Votação iniciada')
     } else {
         res.send('Votação já está em andamento')
@@ -119,26 +118,23 @@ app.get('/votacaoEstado', (req, res) => {
 })
 
 app.get('/escolha', (req, res) => {
-    res.render('escolha')
+    res.render('escolha' , { passoServer: passoAtual})
 })
 
 app.post('/votoLutar', (req, res) => {
     votosLutar++
-    votacaoAtual++
     console.log(votosLutar)
     res.redirect('/')
 })
 
 app.post('/votoFugir', (req, res) => {
     votosFugir++
-    votacaoAtual++
     console.log(votosFugir)
     res.redirect('/')
 })
 
 app.post('/votoItem', (req, res) => {
     votosItem++
-    votacaoAtual++
     console.log(votosItem)
     res.redirect('/')
 })
