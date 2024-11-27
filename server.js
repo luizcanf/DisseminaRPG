@@ -205,7 +205,7 @@ app.post('/d10_2', (req, res) => {
 })
 
 app.get('/completa', (req, res) => {
-    res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', passoAtual: passoAtual, votacaoAtual: votacaoAtual})
+    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual, votacaoAtual: votacaoAtual})
 })
 
 app.post('/full', (req, res) => {
@@ -220,9 +220,9 @@ app.post('/full', (req, res) => {
         d10_2[rollD10_2] = d10_2[rollD10_2] + 1
         rolagensD10_2++
         resultado = `D6: ${rollD6+1} <br> D10(1): ${rollD10_1+1} <br> D10(2): ${rollD10_2+1}`
-        res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', resultado, rolagem: rolagensD6})
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6})
     } else {
-        res.render('rolagem', {dado:'full', nomeDado: 'Rolagem', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
     }
 })
 
