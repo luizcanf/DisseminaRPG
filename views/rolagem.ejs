@@ -6,7 +6,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dissemina-IFF de RPG</title>
   <link rel="stylesheet" href="./style/style.css">
+
+</head>
+
+<body>
+  <main>
+    <h1>Aventuras Fantásticas - Ironsworn</h1>
+    <section>
+      <form action="/<%=dado%>" method="post">
+        <button type="submit">Rolar <%=nomeDado%></button> <br>
+      </form>
+
+      <button type="submit" onclick="escolha()">Escolhas</button>
+
+      <% if(typeof mensagem != 'undefined') { %>
+        <div class="mensagem">
+          <%=mensagem%>
+        </div>
+      <% } %>
+
+      <% if(typeof resultado != 'undefined' && typeof rolagem != 'undefined') { %>
+        <div class="resultado" alt="Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um <%=resultado%>.">
+          <p>Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um</p>
+          <div><%-resultado%></div>
+        </div>
+      <% } %>
+    </section>
+  </main>
+
   <script>
+
+    let passoAtual = Number('<%= passoAtual %>')
+    localStorage.setItem('votacaoAtual', null)
+    let votacaoAtual = localStorage.getItem('votacaoAtual')
+
+    if( votacaoAtual === 'null') {
+      votacaoAtual = passoAtual + 1
+      localStorage.setItem('votacaoAtual', votacaoAtual)
+    }
+    
+    function escolha() { 
+      fetch('/votacaoEstado') 
+      .then(response => response.json()) 
+      .then(data => { 
+        console.log(data.passoServer, votacaoAtual)
+        if (data.votacao && data.passoServer == votacaoAtual) { 
+          votacaoAtual++
+          localStorage.setItem('votacaoAtual', votacaoAtual.toString())
+          window.location.href = '/escolha'
+        } 
+      }) 
+      .catch(error => console.error('Erro:', error))
+    } 
+        
+
+        /*      Código para mandar o usuário para a pagina de escolhas automaticamente quando o mestre abrir uma votação (outra parte ta no escolha.ejs) 
       document.addEventListener('DOMContentLoaded', () => { 
         let passoAtual = Number('<%= passoAtual %>')
         localStorage.setItem('votacaoAtual', null)
@@ -33,32 +87,9 @@
           .catch(error => console.error('Erro:', error))
         } 
         
-      })
+      })   */
   </script>
-</head>
 
-<body>
-  <main>
-    <h1>Aventuras Fantásticas - Ironsworn</h1>
-    <section>
-      <form action="/<%=dado%>" method="post">
-        <button type="submit">Rolar <%=nomeDado%></button>
-      </form>
-
-      <% if(typeof mensagem != 'undefined') { %>
-        <div class="mensagem">
-          <%=mensagem%>
-        </div>
-      <% } %>
-
-      <% if(typeof resultado != 'undefined' && typeof rolagem != 'undefined') { %>
-        <div class="resultado" alt="Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um <%=resultado%>.">
-          <p>Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um</p>
-          <div><%-resultado%></div>
-        </div>
-      <% } %>
-    </section>
-  </main>
 </body>
 
 </html>

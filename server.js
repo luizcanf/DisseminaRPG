@@ -7,7 +7,7 @@ app.use(express.static('public'))
 let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
 let rolagemAberta = true, votacaoAberta = false
-let votosItem = 0, votosFugir = 0, votosLutar = 0
+let votosItem = 0, votosFugir = 0, votosRanged = 0, votosMeele = 0
 let passoAtual = -1, votacaoAtual = 0, passos = [
     {nome: 'Batalha contra uma onça', resultado: null},
     {nome: 'Batalha contra inimigos', resultado: null},
@@ -126,13 +126,20 @@ app.get('/votacaoEstado', (req, res) => {
 })
 
 app.get('/escolha', (req, res) => {
-    res.render('escolha' , { passoServer: passoAtual})
+        res.render('escolha' , { passoServer: passoAtual})
 })
 
-app.post('/votoLutar', (req, res) => {
-    votosLutar++
+app.post('/votoRanged', (req, res) => {
+    votosRanged++
     votacaoAtual++
-    console.log(`${votacaoAtual} votos no total, ${votosLutar} votos pra lutar`)
+    console.log(`${votacaoAtual} votos no total, ${votosRanged} votos pra ataque a distância`)
+    res.redirect('completa')
+})
+
+app.post('/votoMeele', (req, res) => {
+    votosMeele++
+    votacaoAtual++
+    console.log(`${votacaoAtual} votos no total, ${votosMeele} votos pra ataque corpo-a-corpo`)
     res.redirect('completa')
 })
 
@@ -205,7 +212,7 @@ app.post('/d10_2', (req, res) => {
 })
 
 app.get('/completa', (req, res) => {
-    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual})
+    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual, votacaoAberta: votacaoAberta})
 })
 
 app.post('/full', (req, res) => {

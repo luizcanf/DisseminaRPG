@@ -6,6 +6,9 @@
     <title>Escolha</title>
     <link rel="stylesheet" href="./style/style.css">
     <script> 
+
+
+        /*      Código para mandar o usuário para a pagina de escolhas automaticamente quando o mestre abrir uma votação (outra parte ta no rolagem.ejs)
         document.addEventListener('DOMContentLoaded', () => { 
             setInterval(checaVotacao, 3000)
             
@@ -20,24 +23,27 @@
                 .catch(error => console.error('Erro:', error))
             } 
 
-            function aumentaUm() {
-            }
-        })
+        })  */
     </script>
 </head>
 <body>
     <main>
+        <h1>Escolha de ação</h1>
         <section>
-                <form action="/votoLutar" method="post">
-                    <button type="submit" class="escolha lutar" onclick="aumentaUm()">Lutar</button> <br>
+                <form action="/votoRanged" method="post">
+                    <button type="submit" class="escolha ranged">Ataque a distância</button> <br>
                 </form>
             
-                <form action="/votoFugir" method="post">
-                    <button type="submit" class="escolha fugir" onclick="aumentaUm()">Fugir</button> <br>
+                <form action="/votoMeele" method="post">
+                    <button type="submit" class="escolha meele">Ataque corpo-a-corpo</button> <br>
                 </form>
             
                 <form action="/votoItem" method="post">
-                    <button type="submit" class="escolha item" onclick="aumentaUm()">Usar item</button> <br>
+                    <button type="submit" class="escolha item">Usar item</button> <br>
+                </form>
+
+                <form action="/votoFugir" method="post">
+                    <button type="submit" class="escolha fugir">Fugir</button> <br>
                 </form>
         </section>
     </main>
