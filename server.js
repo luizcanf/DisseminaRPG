@@ -76,7 +76,7 @@ app.post('/resetaDados', (req, res) => {
     resetaDado(d10_2, 10)
     rolagensD10_2 = 0
     rolagemAberta = true
-    res.redirect('/mestre')
+    res.render('index')
 })
 
 app.post('/exibeRolagem', (req, res) => {
@@ -133,21 +133,21 @@ app.post('/votoLutar', (req, res) => {
     votosLutar++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosLutar} votos pra lutar`)
-    res.redirect('/')
+    res.redirect('completa')
 })
 
 app.post('/votoFugir', (req, res) => {
     votosFugir++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosFugir} votos pra fugir`)
-    res.redirect('/')
+    res.redirect('completa')
 })
 
 app.post('/votoItem', (req, res) => {
     votosItem++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosItem} votos pra usar item`)
-    res.redirect('/')
+    res.redirect('completa')
 })
 
 app.get('/resultadoVotacao', (req, res) => {
