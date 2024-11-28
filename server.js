@@ -8,7 +8,7 @@ let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
 let rolagemAberta = true, votacaoAberta = false
 let votosItem = 0, votosFugir = 0, votosLutar = 0
-let passoAtual = -1, votacaoAtual, passos = [
+let passoAtual = -1, votacaoAtual = 0, passos = [
     {nome: 'Batalha contra uma onça', resultado: null},
     {nome: 'Batalha contra inimigos', resultado: null},
     {nome: 'Salvar um aliado',        resultado: null},
@@ -131,29 +131,33 @@ app.get('/escolha', (req, res) => {
 
 app.post('/votoLutar', (req, res) => {
     votosLutar++
-    console.log(votosLutar)
+    votacaoAtual++
+    console.log(`${votacaoAtual} votos no total, ${votosLutar} votos pra lutar`)
     res.redirect('/')
 })
 
 app.post('/votoFugir', (req, res) => {
     votosFugir++
-    console.log(votosFugir)
+    votacaoAtual++
+    console.log(`${votacaoAtual} votos no total, ${votosFugir} votos pra fugir`)
     res.redirect('/')
 })
 
 app.post('/votoItem', (req, res) => {
     votosItem++
-    console.log(votosItem)
+    votacaoAtual++
+    console.log(`${votacaoAtual} votos no total, ${votosItem} votos pra usar item`)
     res.redirect('/')
 })
 
 app.get('/resultadoVotacao', (req, res) => {
     resultado = maior()
+    votosFugir = 0
+    votosItem = 0
+    votosLutar = 0
+    votacaoAtual = 0
     res.render('resultadoVotacao', { resultado })
-    
 })
-
-
 
 app.get('/acao', (req, res) => {
     res.render('rolagem', {dado:'d6', nomeDado: 'Dado de Ação'})
@@ -201,7 +205,7 @@ app.post('/d10_2', (req, res) => {
 })
 
 app.get('/completa', (req, res) => {
-    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual, votacaoAtual: votacaoAtual})
+    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual})
 })
 
 app.post('/full', (req, res) => {
@@ -216,6 +220,7 @@ app.post('/full', (req, res) => {
         d10_2[rollD10_2] = d10_2[rollD10_2] + 1
         rolagensD10_2++
         resultado = `D6: ${rollD6+1} <br> D10(1): ${rollD10_1+1} <br> D10(2): ${rollD10_2+1}`
+        console.log(`${rolagensD10_2} rolagens no total, ${resultado}`)
         res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6})
     } else {
         res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.'})
