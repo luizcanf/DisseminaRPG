@@ -8,12 +8,7 @@ let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
 let rolagemAberta = false, votacaoAberta = false
 let votosItem = 0, votosFugir = 0, votosRanged = 0, votosMeele = 0
-let passoAtual = -1, votacaoAtual = 0, passos = [
-    {nome: 'Batalha contra uma onça', resultado: null},
-    {nome: 'Batalha contra inimigos', resultado: null},
-    {nome: 'Salvar um aliado',        resultado: null},
-    {nome: 'Batalha final',           resultado: null},
-]
+let passoAtual = -1, votacaoAtual = 0
 resetaDado(d6, 6)
 resetaDado(d10_1, 10)
 resetaDado(d10_2, 10)
@@ -49,6 +44,21 @@ function moda(dado, lados) {
     }
     resultado++
     return resultado
+}
+
+function resolucaoIronsworn(total, desafio1, desafio2) {
+    let resolucao
+    if (total > desafio1 && total > desafio2 && desafio1 == desafio2)
+        resolucao = 'Acerto Crítico!' 
+    else if (total > desafio1 && total > desafio2)
+        resolucao = 'Acerto Forte!'
+    else if (total <= desafio1 && total <= desafio2 && desafio1 == desafio2)
+        resolucao = 'Erro Crítico!'
+    else if (total <= desafio1 && total <= desafio2)
+        resolucao = 'Erro!'
+    else
+        resolucao = 'Acerto Fraco.'
+    return resolucao
 }
 
 app.get('/', (req, res) => {
@@ -90,18 +100,7 @@ app.post('/exibeRolagem', (req, res) => {
     const desafio2 = moda(d10_2, 10)
     const bonus = parseInt(req.body.bonus)
     let total = acao + bonus
-    let resolucao
-    if (total > desafio1 && total > desafio2 && desafio1 == desafio2)
-        resolucao = 'Acerto Crítico!' 
-    else if (total > desafio1 && total > desafio2)
-        resolucao = 'Acerto Forte!'
-    else if (total <= desafio1 && total <= desafio2 && desafio1 == desafio2)
-        resolucao = 'Erro Crítico!'
-    else if (total <= desafio1 && total <= desafio2)
-        resolucao = 'Erro!'
-    else
-        resolucao = 'Acerto Fraco.'
-
+    let resolucao = resolucaoIronsworn(total, desafio1, desafio2)
     total = `${acao} + ${bonus} = ${total}`
     res.render('resultado', {total, desafio1, desafio2, resolucao})
 })
@@ -223,16 +222,20 @@ app.post('/full', (req, res) => {
     if (rolagemAberta) {
         rollD6 = Math.floor(Math.random()*6)
         d6[rollD6] = d6[rollD6] + 1
+        rollD6 = rollD6+1
         rolagensD6++
         rollD10_1 = Math.floor(Math.random()*10)
         d10_1[rollD10_1] = d10_1[rollD10_1] + 1
+        rollD10_1 = rollD10_1+1
         rolagensD10_1++
         rollD10_2 = Math.floor(Math.random()*10)
         d10_2[rollD10_2] = d10_2[rollD10_2] + 1
+        rollD10_2 = rollD10_2+1
         rolagensD10_2++
-        resultado = `D6: ${rollD6+1} <br> D10(1): ${rollD10_1+1} <br> D10(2): ${rollD10_2+1}`
-        console.log(`${rolagensD10_2} rolagens no total, ${resultado}`)
-        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6, passoAtual: passoAtual})
+        resultado = `Dado de ação (D6): ${rollD6} <br> Dado de desafio 1 (D10): ${rollD10_1} <br> Dado de desafio 2 (D10): ${rollD10_2}`
+        resolucao = `Desconsiderando bônus/penalidade sua rolagem seria um: ${resolucaoIronsworn(rollD6, rollD10_1, rollD10_2)}`
+        console.log(`${rolagensD10_2} rolagens no total, Dado de ação (D6): ${rollD6}`)
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6, resolucao: resolucao, passoAtual: passoAtual})
     } else {
         res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.', passoAtual: passoAtual})
     }

@@ -27,8 +27,11 @@
 
       <% if(typeof resultado != 'undefined' && typeof rolagem != 'undefined') { %>
         <div class="resultado" alt="Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um <%=resultado%>.">
-          <p>Você realizou a <%=rolagem%>ª rolagem deste dado e obteve um</p>
+          <p>Você realizou a <%=rolagem%>ª rolagem desta rodada e obteve:</p>
           <div><%-resultado%></div>
+          <% if(typeof resolucao != 'undefined') { %>
+          <p><%=resolucao%></p>
+          <% } %>
         </div>
       <% } %>
     </section>
