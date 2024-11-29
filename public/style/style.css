@@ -51,6 +51,13 @@ button {
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.499);
     margin: auto;
 }
+button:disabled {
+    background-color: #6C7A89;
+    color: #dcdcdc;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
 label {
     display: block;
     font-size: 1.7em;
