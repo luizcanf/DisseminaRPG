@@ -9,9 +9,13 @@
 <body>
     <main>
         <h1>RPGzão no Auditório</h1>
-        <h1>Resultado da votação</h1>
+        <h1>Resultado da votação de escolha da Ação</h1>
         <section>
-            <div><%= resultado %></div>
+            <div><%-resultado%></div>
+
+            <form action="/voltar" method="post">
+                <button type="submit">Voltar</button>
+            </form>
         </section>
     </main>
 </body>
