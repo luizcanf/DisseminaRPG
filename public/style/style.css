@@ -17,6 +17,7 @@ body {
     height: 100%;
     background-color: var(--verde-opaco);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
 }
 
 main {
@@ -27,7 +28,22 @@ main {
     margin: 5vh auto;
     border-radius: 10px;
     box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.548);
-    overflow: hidden
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #888 var(--bege);
+}
+main::-webkit-scrollbar {
+    width: 12px;
+    border-radius: 10px;
+}
+main::-webkit-scrollbar-track{
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb{
+    background: #888;
+    border-radius: 10px;
 }
 
 main > h1, section {
