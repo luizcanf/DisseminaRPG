@@ -14,13 +14,15 @@ resetaDado(d10_1, 10)
 resetaDado(d10_2, 10)
 
 function maior() {
-    const maior = Math.max(votosItem, votosFugir, votosLutar)
+    const maior = Math.max(votosItem, votosFugir, votosMeele, votosRanged)
     if (maior === votosItem) { 
         return 'O mais votado foi usar item com: ' + votosItem + 'votos'
     } else if (maior === votosFugir) { 
         return 'O mais votado foi fugir com: ' + votosFugir + 'votos'
-    } else { 
-        return 'O mais votado foi lutar com: ' + votosLutar + 'votos'
+    } else if(maior === votosRanged) { 
+        return 'O mais votado foi ataque a distância com: ' + votosRanged + 'votos'
+    } else {
+        return 'O mais votado foi ataque corpo-a-corpo com: ' + votosMeele + 'votos'
     }
 }
 
@@ -239,9 +241,9 @@ app.post('/full', (req, res) => {
         resultado = `Dado de ação (D6): ${rollD6} <br> Dado de desafio 1 (D10): ${rollD10_1} <br> Dado de desafio 2 (D10): ${rollD10_2}`
         resolucao = `Desconsiderando bônus/penalidade sua rolagem seria um: ${resolucaoIronsworn(rollD6, rollD10_1, rollD10_2)}`
         console.log(`${rolagensD10_2} rolagens no total, Dado de ação (D6): ${rollD6}`)
-        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6, resolucao: resolucao, passoAtual: passoAtual})
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6, resolucao: resolucao, passoAtual: passoAtual, votacaoAberta: votacaoAberta})
     } else {
-        res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.', passoAtual: passoAtual})
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.', passoAtual: passoAtual, votacaoAberta: votacaoAberta})
     }
 })
 
