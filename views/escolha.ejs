@@ -31,22 +31,44 @@
         <h1>RPGzão no Auditório</h1>
         <h1>Escolha de ação</h1>
         <section>
-                <form action="/votoRanged" method="post">
-                    <button type="submit" class="escolha ranged">Ataque a distância</button> <br>
+                <form action="/votoRanged" method="post" id="formRanged">
+                    <button type="button" class="escolha ranged" onclick="criaMensagem('ranged')">Ataque a distância</button> <br>
                 </form>
             
-                <form action="/votoMeele" method="post">
-                    <button type="submit" class="escolha meele">Ataque corpo-a-corpo</button> <br>
+                <form action="/votoMeele" method="post" id="formMeele">
+                    <button type="button" class="escolha meele" onclick="criaMensagem('meele')">Ataque corpo-a-corpo</button> <br>
                 </form>
             
-                <form action="/votoItem" method="post">
-                    <button type="submit" class="escolha item">Usar item</button> <br>
+                <form action="/votoItem" method="post" id="formItem">
+                    <button type="button" class="escolha item" onclick="criaMensagem('item')">Usar item</button> <br>
                 </form>
 
-                <form action="/votoFugir" method="post">
-                    <button type="submit" class="escolha fugir">Fugir</button> <br>
+                <form action="/votoFugir" method="post" id="formFugir">
+                    <button type="button" class="escolha fugir" onclick="criaMensagem('fugir')">Fugir</button> <br>
                 </form>
         </section>
     </main>
+    <script>
+        function criaMensagem(voto) {
+            localStorage.setItem('ranged', false)
+            localStorage.setItem('meele', false)
+            localStorage.setItem('item', false)
+            localStorage.setItem('fugir', false)
+
+            if(voto == 'ranged'){
+                localStorage.setItem('ranged', true)
+                formRanged.submit()
+            } else if(voto == 'meele'){
+                localStorage.setItem('meele', true)
+                formMeele.submit()
+            } else if(voto == 'item'){
+                localStorage.setItem('item', true)
+                formItem.submit()
+            } else {
+                localStorage.setItem('fugir', true)
+                formFugir.submit()
+            } 
+        }
+    </script>
 </body>
 </html>

@@ -8,7 +8,7 @@ let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
 let rolagemAberta = false, votacaoAberta = false
 let votosItem = 0, votosFugir = 0, votosRanged = 0, votosMeele = 0
-let passoAtual = -1, votacaoAtual = 0
+let passoAtual = -1, votacaoAtual = 0, mensagemVotacao
 resetaDado(d6, 6)
 resetaDado(d10_1, 10)
 resetaDado(d10_2, 10)
@@ -115,6 +115,7 @@ app.post('/proximoPasso', (req, res) => {
     if (!votacaoAberta) {
         votacaoAberta = true
         passoAtual++
+        mensagemVotacao = ''
         res.send('Votação iniciada')
     } else {
         res.send('Votação já está em andamento')
@@ -142,28 +143,28 @@ app.post('/votoRanged', (req, res) => {
     votosRanged++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosRanged} votos pra ataque a distância`)
-    res.redirect('completa')
+    res.redirect('/completa')
 })
 
 app.post('/votoMeele', (req, res) => {
     votosMeele++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosMeele} votos pra ataque corpo-a-corpo`)
-    res.redirect('completa')
+    res.redirect('/completa')
 })
 
 app.post('/votoFugir', (req, res) => {
     votosFugir++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosFugir} votos pra fugir`)
-    res.redirect('completa')
+    res.redirect('/completa')
 })
 
 app.post('/votoItem', (req, res) => {
     votosItem++
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosItem} votos pra usar item`)
-    res.redirect('completa')
+    res.redirect('/completa')
 })
 
 app.get('/resultadoVotacao', (req, res) => {
@@ -221,7 +222,7 @@ app.post('/d10_2', (req, res) => {
 })
 
 app.get('/completa', (req, res) => {
-    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual, votacaoAberta: votacaoAberta})
+    res.render('rolagem', {dado:'full', nomeDado: 'Dados', passoAtual: passoAtual, votacaoAtual: votacaoAtual, votacaoAberta: votacaoAberta, resultadoVotacao: mensagemVotacao, votosFugir: votosFugir, votosItem: votosItem, votosMeele: votosMeele, votosRanged: votosRanged})
 })
 
 app.post('/full', (req, res) => {
@@ -241,9 +242,9 @@ app.post('/full', (req, res) => {
         resultado = `Dado de ação (D6): ${rollD6} <br> Dado de desafio 1 (D10): ${rollD10_1} <br> Dado de desafio 2 (D10): ${rollD10_2}`
         resolucao = `Desconsiderando bônus/penalidade sua rolagem seria um: ${resolucaoIronsworn(rollD6, rollD10_1, rollD10_2)}`
         console.log(`${rolagensD10_2} rolagens no total, Dado de ação (D6): ${rollD6}`)
-        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6, resolucao: resolucao, passoAtual: passoAtual, votacaoAberta: votacaoAberta})
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', resultado, rolagem: rolagensD6, resolucao: resolucao, passoAtual: passoAtual, votacaoAberta: votacaoAberta, votacaoAtual: votacaoAtual, votosFugir: votosFugir, votosItem: votosItem, votosMeele: votosMeele, votosRanged: votosRanged})
     } else {
-        res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.', passoAtual: passoAtual, votacaoAberta: votacaoAberta})
+        res.render('rolagem', {dado:'full', nomeDado: 'Dados', mensagem:'Rolagem de dados bloqueada pelo mestre do jogo.', passoAtual: passoAtual, votacaoAberta: votacaoAberta, votacaoAtual: votacaoAtual, votosFugir: votosFugir, votosItem: votosItem, votosMeele: votosMeele, votosRanged: votosRanged})
     }
 })
 
