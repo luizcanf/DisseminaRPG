@@ -1,18 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style/style.css">
-</head>
-<body>
+  </head>
+  <body>
     <main>
-        <h1>RPGzão no Auditório</h1>
-        <h1>Resultado da votação</h1>
-        <section>
-            <div><%= resultado %></div>
-        </section>
+      <h1>RPGzão no Auditório</h1>
+      <h2>Resultado da votação de escolha da Ação</h2>
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+const labels = ['Ataque à distância','Ataque corpo-a-corpo','Usar Item','Fugir'];
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Ação',
+      data: [<%=escolhas[0]%>, <%=escolhas[1]%>, <%=escolhas[2]%>, <%=escolhas[3]%>]
+    }
+  ]
+};
+
+const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    indexAxis: 'y',
+    elements: {
+      bar: {
+        borderWidth: 2,
+      }
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Votação para Escolha de Ação'
+      }
+    }
+  },
+};
+
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, config);
+      </script>
+      
+      <section>
+        <div>
+          Com <%=votos%> votos, a ação escolhida foi:
+          <br><b id="acao"><%=acao%><b><br>
+        </div>
+        
+        <form action="/voltar" method="post">
+          <button type="submit">Voltar</button>
+        </form>
+        <%=escolhas[0]%>
+      </section>
     </main>
-</body>
+  </body>
 </html>

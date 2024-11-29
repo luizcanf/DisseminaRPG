@@ -6,26 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dissemina-IFF de RPG</title>
   <link rel="stylesheet" href="./style/style.css">
-  <script>
-        function proximoPasso() {
-            fetch('/proximoPasso', {
-                method: 'POST'
-            })
-            .then(response => response.text())
-            .then(data => console.log(data))
-            .catch(error => console.error('Erro:', error));
-        }
-
-        function fecharVotacao() {
-            fetch('/fecharVotacao', {
-                method: 'POST'
-            })
-            .then(response => response.text())
-            .then(data => console.log(data))
-            .catch(error => console.error('Erro:', error));
-        }
-  </script>
-
 </head>
 
 <body>
@@ -36,9 +16,10 @@
         <button type="submit">Iniciar Rolagens</button>
       </form>
       <br>
-        <button type="submit" id="proximoPasso" onclick="proximoPasso()">Proximo passo</button>
+      <form action="/proximoPasso" method="post">
+        <button type="submit">Iniciar Escolha de Ação</button>
+      </form>
       <br>
-        <button type="submit" id="fecharVotacao" onclick="fecharVotacao()">fechar votação</button>
     </section>
   </main>
 </body>

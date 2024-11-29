@@ -13,16 +13,16 @@ resetaDado(d6, 6)
 resetaDado(d10_1, 10)
 resetaDado(d10_2, 10)
 
-function maior() {
+function maioria() {
     const maior = Math.max(votosItem, votosFugir, votosMeele, votosRanged)
-    if (maior === votosItem) { 
-        return 'O mais votado foi usar item com: ' + votosItem + 'votos'
-    } else if (maior === votosFugir) { 
-        return 'O mais votado foi fugir com: ' + votosFugir + 'votos'
-    } else if(maior === votosRanged) { 
-        return 'O mais votado foi ataque a distância com: ' + votosRanged + 'votos'
-    } else {
-        return 'O mais votado foi ataque corpo-a-corpo com: ' + votosMeele + 'votos'
+    if (maior === votosRanged) { 
+        return `Ataque à distância`
+    } else if (maior === votosMeele) { 
+        return `Ataque corpo-a-corpo`
+    } else if (maior === votosItem) { 
+        return `Usar Item`
+    } else { 
+        return `Fugir`
     }
 }
 
@@ -113,21 +113,17 @@ app.get('/rolagensEstado', (req, res) => {
 
 app.post('/proximoPasso', (req, res) => {
     if (!votacaoAberta) {
+        votosFugir = 0
+        votosItem = 0
+        votosMeele = 0
+        votosRanged = 0
+        votacaoAtual = 0
         votacaoAberta = true
         passoAtual++
         mensagemVotacao = ''
-        res.send('Votação iniciada')
+        res.render('esperaEscolhas')
     } else {
         res.send('Votação já está em andamento')
-    }
-})
-
-app.post('/fecharVotacao', (req, res) => {
-    if (votacaoAberta) {
-        votacaoAberta = false
-        res.send('Votação encerrada')
-    } else {
-        res.send('Votação já encerrada')
     }
 })
 
@@ -135,8 +131,20 @@ app.get('/votacaoEstado', (req, res) => {
     res.json({ votacao: votacaoAberta, passoServer: passoAtual })
 })
 
+app.get('/escolhasEstado', (req, res) => {
+    res.json({ escolhas: votacaoAtual })
+})
+
 app.get('/escolha', (req, res) => {
         res.render('escolha' , { passoServer: passoAtual})
+})
+
+app.post('/exibeEscolha', (req, res) => {
+    votacaoAberta = false
+    resultado = maioria()
+    const maior = Math.max(votosItem, votosFugir, votosMeele, votosRanged)
+    let escolhas = [votosRanged, votosMeele, votosItem, votosFugir]
+    res.render('resultadoVotacao', { votos: maior, acao: resultado, escolhas })
 })
 
 app.post('/votoRanged', (req, res) => {
@@ -165,15 +173,6 @@ app.post('/votoItem', (req, res) => {
     votacaoAtual++
     console.log(`${votacaoAtual} votos no total, ${votosItem} votos pra usar item`)
     res.redirect('/completa')
-})
-
-app.get('/resultadoVotacao', (req, res) => {
-    resultado = maior()
-    votosFugir = 0
-    votosItem = 0
-    votosLutar = 0
-    votacaoAtual = 0
-    res.render('resultadoVotacao', { resultado })
 })
 
 app.get('/acao', (req, res) => {
