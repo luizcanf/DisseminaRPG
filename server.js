@@ -105,6 +105,10 @@ app.post('/exibeRolagem', (req, res) => {
     res.render('resultado', {total, desafio1, desafio2, resolucao})
 })
 
+app.get('/rolagensEstado', (req, res) => {
+    res.json({ rolagens: rolagensD6 })
+})
+
 app.post('/proximoPasso', (req, res) => {
     if (!votacaoAberta) {
         votacaoAberta = true

@@ -7,13 +7,26 @@
   <title>Dissemina-IFF de RPG</title>
   <link rel="stylesheet" href="./style/style.css">
   <script>
-        function checarBonus() {
-          if (bonus.value == "") {
-            alert('Você esqueceu de digitar o bônus/penalidade, Mestre.');
-          } else {
-            formExibirRolagens.submit();
-          }
-        }
+    function checarBonus() {
+      if (bonus.value == "") {
+        alert('Você esqueceu de digitar o bônus/penalidade, Mestre.');
+      } else {
+        formExibirRolagens.submit();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => { 
+      setInterval(checaRolagens, 5000)
+      
+      function checaRolagens() {
+        fetch('/rolagensEstado') 
+        .then(response => response.json()) 
+        .then(data => {
+          total.innerHTML = data.rolagens
+        }) 
+        .catch(error => console.error('Erro:', error))
+      }
+    })
   </script>
 
 </head>
@@ -22,6 +35,8 @@
   <main>
     <h1>RPGzão no Auditório</h1>
     <section>
+      <p><b id="total">0</b> rolagens realizadas</p>
+      <br>
       <form action="/exibeRolagem" method="post" id="formExibirRolagens">
         <label>Bônus/Penalidade: </label>
         <input type="number" name="bonus" id="bonus">
