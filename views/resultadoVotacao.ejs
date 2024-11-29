@@ -1,22 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style/style.css">
-</head>
-<body>
+  </head>
+  <body>
     <main>
-        <h1>RPGzão no Auditório</h1>
-        <h1>Resultado da votação de escolha da Ação</h1>
-        <section>
-            <div><%-resultado%></div>
+      <h1>RPGzão no Auditório</h1>
+      <h2>Resultado da votação de escolha da Ação</h2>
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
 
-            <form action="/voltar" method="post">
-                <button type="submit">Voltar</button>
-            </form>
-        </section>
+        
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+      
+      <section>
+        <div>
+          Com <%=votos%> votos, a ação escolhida foi:
+          <br><b id="acao"><%=acao%><b><br>
+        </div>
+        
+        <form action="/voltar" method="post">
+          <button type="submit">Voltar</button>
+        </form>
+        <%=escolhas[0]%>
+      </section>
     </main>
-</body>
+  </body>
 </html>

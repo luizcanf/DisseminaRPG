@@ -16,13 +16,13 @@ resetaDado(d10_2, 10)
 function maioria() {
     const maior = Math.max(votosItem, votosFugir, votosMeele, votosRanged)
     if (maior === votosRanged) { 
-        return `Com ${votosRanged} votos, a ação escolhida foi:<br><b id="acao">Ataque à distância<b><br>`
+        return `Ataque à distância`
     } else if (maior === votosMeele) { 
-        return `Com ${votosMeele} votos, a ação escolhida foi:<br><b id="acao">Ataque corpo-a-corpo<b><br>`
+        return `Ataque corpo-a-corpo`
     } else if (maior === votosItem) { 
-        return `Com ${votosItem} votos, a ação escolhida foi:<br><b id="acao">Usar Item<b><br>`
+        return `Usar Item`
     } else { 
-        return `Com ${votosFugir} votos, a ação escolhida foi:<br><b id="acao">Fugir<b><br>`
+        return `Fugir`
     }
 }
 
@@ -141,7 +141,9 @@ app.get('/escolha', (req, res) => {
 app.post('/exibeEscolha', (req, res) => {
     votacaoAberta = false
     resultado = maioria()
-    res.render('resultadoVotacao', { resultado })
+    const maior = Math.max(votosItem, votosFugir, votosMeele, votosRanged)
+    let escolhas = [votosRanged, votosMeele, votosItem, votosFugir]
+    res.render('resultadoVotacao', { votos: maior, acao: resultado, escolhas })
 })
 
 app.post('/votoRanged', (req, res) => {
