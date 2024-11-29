@@ -17,7 +17,7 @@
         <button type="button" onclick="rolaComCalma()" id="btnRolagem">Rolar <%=nomeDado%></button> <br>
       </form>
 
-      <button type="submit" onclick="escolha()">Escolhas</button>
+      <button type="submit" onclick="escolha()" id="btnEscolhas">Escolhas</button>
 
       <% if(typeof mensagem != 'undefined') { %>
         <div class="mensagem">
@@ -64,6 +64,7 @@
 
     function rolaComCalma() {
       btnRolagem.disabled = true
+      btnEscolhas.disabled = true
       setTimeout(() => {
         formRolagem.submit()
       }, 3000)
