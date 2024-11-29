@@ -13,8 +13,8 @@
   <main>
     <h1>RPGzão no Auditório</h1>
     <section>
-      <form action="/<%=dado%>" method="post">
-        <button type="submit">Rolar <%=nomeDado%></button> <br>
+      <form action="/<%=dado%>" method="post" id="formRolagem">
+        <button type="button" onclick="rolaComCalma()" id="btnRolagem">Rolar <%=nomeDado%></button> <br>
       </form>
 
       <button type="submit" onclick="escolha()">Escolhas</button>
@@ -60,8 +60,14 @@
         } 
       }) 
       .catch(error => console.error('Erro:', error))
-    } 
-        
+    }
+
+    function rolaComCalma() {
+      btnRolagem.disabled = true
+      setTimeout(() => {
+        formRolagem.submit()
+      }, 3000)
+    }   
 
         /*      Código para mandar o usuário para a pagina de escolhas automaticamente quando o mestre abrir uma votação (outra parte ta no escolha.ejs) 
       document.addEventListener('DOMContentLoaded', () => { 
