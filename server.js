@@ -104,7 +104,7 @@ app.post('/exibeRolagem', (req, res) => {
     let total = acao + bonus
     let resolucao = resolucaoIronsworn(total, desafio1, desafio2)
     total = `${acao} + ${bonus} = ${total}`
-    res.render('resultado', {total, desafio1, desafio2, resolucao})
+    res.render('resultado', {total, desafio1, desafio2, resolucao, d6})
 })
 
 app.get('/rolagensEstado', (req, res) => {
