@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dissemina-IFF de RPG</title>
+  <link rel="stylesheet" href="./style/style.css">
+  <script>
+        function checarBonus() {
+          if (bonus.value == "") {
+            alert('Você esqueceu de digitar o bônus/penalidade, Mestre.');
+          } else {
+            formExibirRolagens.submit();
+          }
+        }
+  </script>
+
+</head>
+
+<body>
+  <main>
+    <h1>RPGzão no Auditório</h1>
+    <section>
+      <form action="/exibeRolagem" method="post" id="formExibirRolagens">
+        <label>Bônus/Penalidade: </label>
+        <input type="number" name="bonus" id="bonus">
+        <button type="button" onclick="checarBonus()">Exibir Rolagens</button>
+      </form>
+    </section>
+  </main>
+</body>
+
+</html>

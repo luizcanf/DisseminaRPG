@@ -60,12 +60,16 @@ app.get('/mestre', (req, res) => {
 })
 
 TSH=s=>{for(var i=0,h=9;i<s.length;)h=Math.imul(h^s.charCodeAt(i++),9**9);return h^h>>>9}
-app.post('/quissapunk', (req, res) => {
+app.post('/inicio', (req, res) => {
     if(TSH(req.body.senha)==1438420344) {
         res.render('index')
     } else {
         res.redirect('completa')
     }
+})
+
+app.post('/voltar', (req, res) => {
+    res.render('index')
 })
 
 app.post('/resetaDados', (req, res) => {
@@ -76,7 +80,7 @@ app.post('/resetaDados', (req, res) => {
     resetaDado(d10_2, 10)
     rolagensD10_2 = 0
     rolagemAberta = true
-    res.render('index')
+    res.render('esperaRolagens')
 })
 
 app.post('/exibeRolagem', (req, res) => {
