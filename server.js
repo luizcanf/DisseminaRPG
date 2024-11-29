@@ -6,7 +6,7 @@ app.set("view engine", "ejs")
 app.use(express.static('public'))
 let d6 = [], d10_1 = [], d10_2 = []
 let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
-let rolagemAberta = true, votacaoAberta = false
+let rolagemAberta = false, votacaoAberta = false
 let votosItem = 0, votosFugir = 0, votosLutar = 0
 let passoAtual = -1, votacaoAtual = 0, passos = [
     {nome: 'Batalha contra uma onça', resultado: null},
