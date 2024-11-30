@@ -93,8 +93,8 @@
         .then(response => response.json()) 
         .then(data => { 
         console.log(data.passoServer, votacaoAtual)
-        if (data.votacao && data.passoServer == votacaoAtual) { 
-          votacaoAtual++
+        if (data.votacao && data.passoServer >= votacaoAtual) { 
+          votacaoAtual = data.passoServer
           localStorage.setItem('votacaoAtual', votacaoAtual.toString())
           window.location.href = '/escolha'
         } 

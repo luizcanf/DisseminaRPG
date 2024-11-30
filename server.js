@@ -1,4 +1,5 @@
 const express = require('express')
+const fs = require('fs')
 const PORT = process.env.PORT || 3000
 const app = express()
 app.use(express.urlencoded({ extended: true }))
@@ -9,6 +10,10 @@ let rolagensD6 = 0, rolagensD10_1 = 0, rolagensD10_2 = 0
 let rolagemAberta = false, votacaoAberta = false
 let votosItem = 0, votosFugir = 0, votosRanged = 0, votosMeele = 0
 let passoAtual = -1, votacaoAtual = 0, mensagemVotacao
+if (fs.existsSync('registroVotacoes.txt')) {
+    passoAtual = parseInt(fs.readFileSync('registroVotacoes.txt', 'utf-8'))
+    console.log(`passoatual no arquivo: ${passoAtual}`);
+}
 resetaDado(d6, 6)
 resetaDado(d10_1, 10)
 resetaDado(d10_2, 10)
@@ -104,7 +109,7 @@ app.post('/exibeRolagem', (req, res) => {
     let total = acao + bonus
     let resolucao = resolucaoIronsworn(total, desafio1, desafio2)
     total = `${acao} + ${bonus} = ${total}`
-    res.render('resultado', {total, desafio1, desafio2, resolucao})
+    res.render('resultado', {total, desafio1, desafio2, resolucao, d6})
 })
 
 app.get('/rolagensEstado', (req, res) => {
@@ -120,6 +125,7 @@ app.post('/proximoPasso', (req, res) => {
         votacaoAtual = 0
         votacaoAberta = true
         passoAtual++
+        fs.writeFileSync('registroVotacoes.txt', `${passoAtual}`, 'utf-8')
         mensagemVotacao = ''
         res.render('esperaEscolhas')
     } else {
@@ -136,7 +142,7 @@ app.get('/escolhasEstado', (req, res) => {
 })
 
 app.get('/escolha', (req, res) => {
-        res.render('escolha' , { passoServer: passoAtual})
+    res.render('escolha' , { passoServer: passoAtual})
 })
 
 app.post('/exibeEscolha', (req, res) => {
