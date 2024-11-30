@@ -19,6 +19,9 @@
 
       <button type="submit" onclick="escolha()" id="btnEscolhas">Escolhas</button>
 
+      <div class="mensagemVotacao mensagem">
+
+      </div>
       <% if(typeof mensagem != 'undefined') { %>
         <div class="mensagem">
           <%=mensagem%>
@@ -42,6 +45,7 @@
   </main>
 
   <script>
+    let votacaoAberta = '<%= votacaoAberta %>'
     document.addEventListener('DOMContentLoaded', () => {
       let mensagemRanged = localStorage.getItem('ranged')
       let mensagemMeele = localStorage.getItem('meele')
@@ -52,7 +56,6 @@
       let votosMeele = Number('<%= votosMeele %>')
       let votosRanged = Number('<%= votosRanged %>')
       let votosItem = Number('<%= votosItem %>')
-      let votacaoAberta = '<%= votacaoAberta %>'
 
       if(votacaoAberta == 'true') {
         if(mensagemFugir == 'true') {
@@ -71,7 +74,7 @@
       } else {
         document.getElementById('resultadoVoto').style.display = 'block'
       }
-    }, 3000)
+    })
 
     let passoAtual = Number('<%= passoAtual %>')
     localStorage.setItem('votacaoAtual', null)
@@ -83,9 +86,12 @@
     }
     
     function escolha() { 
-      fetch('/votacaoEstado') 
-      .then(response => response.json()) 
-      .then(data => { 
+      let mensagemVotacao = document.querySelector('.mensagemVotacao')
+      if(votacaoAberta == 'true' || passoAtual == votacaoAtual) {
+        mensagemVotacao.style.display = 'none'
+        fetch('/votacaoEstado') 
+        .then(response => response.json()) 
+        .then(data => { 
         console.log(data.passoServer, votacaoAtual)
         if (data.votacao && data.passoServer == votacaoAtual) { 
           votacaoAtual++
@@ -94,6 +100,10 @@
         } 
       }) 
       .catch(error => console.error('Erro:', error))
+      } else {
+        mensagemVotacao.style.display = 'block'
+        mensagemVotacao.innerHTML = 'Votação fechada'
+      }
     }
 
     function rolaComCalma() {
