@@ -32,6 +32,7 @@ main {
     scrollbar-width: thin;
     scrollbar-color: #888 var(--bege);
 }
+
 main::-webkit-scrollbar {
     width: 12px;
     border-radius: 10px;
@@ -120,4 +121,10 @@ input {
 
 .resultado h1, .resultado h2 {
     margin-bottom: 20px;
+}
+
+img{ 
+    display: block;
+    margin: auto;
+    width: 60%;
 }

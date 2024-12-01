@@ -19,14 +19,12 @@
 
       <button type="submit" onclick="escolha()" id="btnEscolhas">Escolhas</button>
 
-      <div class="mensagemVotacao mensagem">
-
-      </div>
       <% if(typeof mensagem != 'undefined') { %>
         <div class="mensagem">
           <%=mensagem%>
         </div>
-      <% } %>
+        <% } %>
+        <div class="mensagemVotacao mensagem"></div> <br>
 
         <div id="resultadoVoto" style="display: none;">
           <p style="font-weight: bold;" id="textoResultado"></p>
@@ -45,8 +43,8 @@
   </main>
 
   <script>
-    let votacaoAberta = '<%= votacaoAberta %>'
-    document.addEventListener('DOMContentLoaded', () => {
+      let votacaoAberta = '<%= votacaoAberta %>'
+      document.addEventListener('DOMContentLoaded', () => {
       let mensagemRanged = localStorage.getItem('ranged')
       let mensagemMeele = localStorage.getItem('meele')
       let mensagemItem = localStorage.getItem('item')
@@ -56,54 +54,63 @@
       let votosMeele = Number('<%= votosMeele %>')
       let votosRanged = Number('<%= votosRanged %>')
       let votosItem = Number('<%= votosItem %>')
+      let resultadoVoto = document.getElementById('resultadoVoto')
+      let textoResultado = document.getElementById('textoResultado')
 
       if(votacaoAberta == 'true') {
-        if(mensagemFugir == 'true') {
-          document.getElementById('resultadoVoto').style.display = 'block'
-          document.getElementById('textoResultado').innerHTML = `Você realizou o ${votosFugir}° voto para fugir de ${votacaoAtual} votos`
-        } else if(mensagemMeele == 'true') {
-          document.getElementById('resultadoVoto').style.display = 'block'
-          document.getElementById('textoResultado').innerHTML = `Você realizou o ${votosMeele}° voto para Ataque corpo-a-corpo de ${votacaoAtual} votos`
-        } else if(mensagemRanged == 'true') {
-          document.getElementById('resultadoVoto').style.display = 'block'
-          document.getElementById('textoResultado').innerHTML = `Você realizou o ${votosRanged}° voto para ataque a distância de ${votacaoAtual} votos`
-        } else {
-          document.getElementById('resultadoVoto').style.display = 'block'
-          document.getElementById('textoResultado').innerHTML = `Você realizou o ${votosItem}° voto para usar item de ${votacaoAtual} votos`
-        } 
+        if(mensagemFugir == 'true' && votosFugir > 0) {
+          resultadoVoto.style.display = 'block'
+          textoResultado.innerHTML = `Você realizou o ${votosFugir}° voto para fugir de ${votacaoAtual} votos`
+        } else if(mensagemMeele == 'true' && votosMeele > 0) {
+          resultadoVoto.style.display = 'block'
+          textoResultado.innerHTML = `Você realizou o ${votosMeele}° voto para Ataque corpo-a-corpo de ${votacaoAtual} votos`
+        } else if(mensagemRanged == 'true' && votosRanged > 0) {
+          resultadoVoto.style.display = 'block'
+          textoResultado.innerHTML = `Você realizou o ${votosRanged}° voto para ataque a distância de ${votacaoAtual} votos`
+        } else  if(mensagemItem == 'true'  && votosItem > 0) {
+          resultadoVoto.style.display = 'block'
+          textoResultado.innerHTML = `Você realizou o ${votosItem}° voto para usar item de ${votacaoAtual} votos`
+        }  else {
+          resultadoVoto.style.display = 'none'
+        }
       } else {
-        document.getElementById('resultadoVoto').style.display = 'block'
+        resultadoVoto.style.display = 'none'
       }
     })
-
-    let passoAtual = Number('<%= passoAtual %>')
-    localStorage.setItem('votacaoAtual', null)
-    let votacaoAtual = localStorage.getItem('votacaoAtual')
-
-    if( votacaoAtual === 'null') {
-      votacaoAtual = passoAtual + 1
-      localStorage.setItem('votacaoAtual', votacaoAtual)
-    }
     
     function escolha() { 
-      let mensagemVotacao = document.querySelector('.mensagemVotacao')
-      if(votacaoAberta == 'true' || passoAtual == votacaoAtual) {
-        mensagemVotacao.style.display = 'none'
-        fetch('/votacaoEstado') 
-        .then(response => response.json()) 
-        .then(data => { 
-        console.log(data.passoServer, votacaoAtual)
-        if (data.votacao && data.passoServer >= votacaoAtual) { 
-          votacaoAtual = data.passoServer
-          localStorage.setItem('votacaoAtual', votacaoAtual.toString())
-          window.location.href = '/escolha'
-        } 
-      }) 
-      .catch(error => console.error('Erro:', error))
-      } else {
-        mensagemVotacao.style.display = 'block'
-        mensagemVotacao.innerHTML = 'Votação fechada'
+      setTimeout(escolha(), 3000)
+      let votacaoAtual = localStorage.getItem('votacaoAtual') != 'null'? localStorage.getItem('votacaoAtual') : localStorage.setItem('votacaoAtual', null)
+      if(votacaoAtual === 'null') {
+        votacaoAtual = passoAtual + 1
+        localStorage.setItem('votacaoAtual', votacaoAtual)
       }
+      
+      let mensagemVotacao = document.querySelector('.mensagemVotacao')
+      mensagemVotacao.style.display = 'none'
+
+      fetch('/votacaoEstado') 
+      .then(response => response.json()) 
+      .then(data => { 
+        console.log(data.passoServer, data.votacao, votacaoAtual)
+        if(data.votacao) {
+          if (data.passoServer >= votacaoAtual) { 
+            btnRolagem.disabled = true
+            btnEscolhas.disabled = true
+            votacaoAtual = data.passoServer + 1
+            localStorage.setItem('votacaoAtual', votacaoAtual.toString())
+            window.location.href = '/escolha'
+          } else {
+            mensagemVotacao.style.display = 'block'
+            mensagemVotacao.innerHTML = 'Voto já depositado'                
+          }
+        } else {
+          mensagemVotacao.style.display = 'block'
+          mensagemVotacao.innerHTML = 'Votação fechada'
+          document.getElementById('textoResultado').innerHTML = ''
+        }
+      }) 
+        .catch(error => console.error('Erro:', error))
     }
 
     function rolaComCalma() {
