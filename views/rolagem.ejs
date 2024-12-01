@@ -79,38 +79,41 @@
     })
     
     function escolha() { 
-      setTimeout(escolha(), 3000)
-      let votacaoAtual = localStorage.getItem('votacaoAtual') != 'null'? localStorage.getItem('votacaoAtual') : localStorage.setItem('votacaoAtual', null)
-      if(votacaoAtual === 'null') {
-        votacaoAtual = passoAtual + 1
-        localStorage.setItem('votacaoAtual', votacaoAtual)
-      }
-      
-      let mensagemVotacao = document.querySelector('.mensagemVotacao')
-      mensagemVotacao.style.display = 'none'
+      btnEscolhas.disabled = true
+      setTimeout(() => {
+        let votacaoAtual = localStorage.getItem('votacaoAtual') != 'null'? localStorage.getItem('votacaoAtual') : localStorage.setItem('votacaoAtual', null)
+        if(votacaoAtual === 'null') {
+          votacaoAtual = passoAtual + 1
+          localStorage.setItem('votacaoAtual', votacaoAtual)
+        }
+        
+        let mensagemVotacao = document.querySelector('.mensagemVotacao')
+        mensagemVotacao.style.display = 'none'
 
-      fetch('/votacaoEstado') 
-      .then(response => response.json()) 
-      .then(data => { 
-        console.log(data.passoServer, data.votacao, votacaoAtual)
-        if(data.votacao) {
-          if (data.passoServer >= votacaoAtual) { 
-            btnRolagem.disabled = true
-            btnEscolhas.disabled = true
-            votacaoAtual = data.passoServer + 1
-            localStorage.setItem('votacaoAtual', votacaoAtual.toString())
-            window.location.href = '/escolha'
+        fetch('/votacaoEstado') 
+        .then(response => response.json()) 
+        .then(data => { 
+          console.log(data.passoServer, data.votacao, votacaoAtual)
+          if(data.votacao) {
+            if (data.passoServer >= votacaoAtual) { 
+              btnRolagem.disabled = true
+              btnEscolhas.disabled = true
+              votacaoAtual = data.passoServer + 1
+              localStorage.setItem('votacaoAtual', votacaoAtual.toString())
+              window.location.href = '/escolha'
+            } else {
+              mensagemVotacao.style.display = 'block'
+              mensagemVotacao.innerHTML = 'Voto já depositado'                
+            }
           } else {
             mensagemVotacao.style.display = 'block'
-            mensagemVotacao.innerHTML = 'Voto já depositado'                
+            mensagemVotacao.innerHTML = 'Votação fechada'
+            document.getElementById('textoResultado').innerHTML = ''
           }
-        } else {
-          mensagemVotacao.style.display = 'block'
-          mensagemVotacao.innerHTML = 'Votação fechada'
-          document.getElementById('textoResultado').innerHTML = ''
-        }
-      }) 
-        .catch(error => console.error('Erro:', error))
+        }) 
+          .catch(error => console.error('Erro:', error))
+        btnEscolhas.disabled = false
+      }, 3000)
     }
 
     function rolaComCalma() {
